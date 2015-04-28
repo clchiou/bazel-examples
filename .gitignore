@@ -1,0 +1,8 @@
+bazel-bazel-examples
+bazel-bin
+bazel-genfiles
+bazel-out
+bazel-testlogs
+tools/bazel
+yasm/yasm-1.3.0
+yasm/yasm-1.3.0.tar.gz
