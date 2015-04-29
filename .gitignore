@@ -6,3 +6,6 @@ bazel-testlogs
 tools/bazel
 yasm/yasm-1.3.0
 yasm/yasm-1.3.0.tar.gz
+x264/last_x264.tar.bz2
+x264/x264
+x264/x264-snapshot-*
