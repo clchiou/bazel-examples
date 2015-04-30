@@ -1,6 +1,6 @@
 package(default_visibility = ['//visibility:public'])
 
-# XXX I wish I could write `$(PACKAGE)/yasm`.
+# XXX I wish I could write '$(PACKAGE)/yasm'.
 SRC_ROOT = 'yasm/yasm'
 RELATIVE = '../../'
 

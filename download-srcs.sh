@@ -2,12 +2,12 @@
 
 set -o errexit -o nounset -o pipefail
 
+X264_TARBALL="last_x264.tar.bz2"
+X264_URL="http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2"
+
 YASM="yasm-1.3.0"
 YASM_TARBALL="yasm-1.3.0.tar.gz"
 YASM_URL="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
-
-X264_TARBALL="last_x264.tar.bz2"
-X264_URL="http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2"
 
 main() {
   if [ ! -d ".git" ]; then
@@ -19,6 +19,7 @@ main() {
 
   mkdir -p "${ROOT}/tools"
   mkdir -p "${ROOT}/x264"
+  mkdir -p "${ROOT}/x265"
   mkdir -p "${ROOT}/yasm"
 
   echo "### bazel"
@@ -33,6 +34,10 @@ main() {
   [ -f "${X264_TARBALL}" ] || wget "${X264_URL}"
   [ -d x264-snapshot* ] || tar xjvf "${X264_TARBALL}"
   [ -e x264 ] || ln -s x264-snapshot* x264
+
+  echo "### x265"
+  cd "${ROOT}/x265"
+  [ -d x265 ] || hg clone https://bitbucket.org/multicoreware/x265
 
   echo "### yasm"
   cd "${ROOT}/yasm"
