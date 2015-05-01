@@ -17,17 +17,16 @@ main() {
 
   local ROOT="$(pwd)"
 
-  mkdir -p "${ROOT}/tools"
-  mkdir -p "${ROOT}/x264"
-  mkdir -p "${ROOT}/x265"
-  mkdir -p "${ROOT}/yasm"
-
   echo "### bazel"
   checkout_git https://github.com/google/bazel.git tools
   cd "${ROOT}/tools"
   for dir in cpp defaults genrule; do
     [ -d "${dir}" ] || ln -s "bazel/tools/${dir}"
   done
+
+  echo "### fdk-aac"
+  cd "${ROOT}/fdk-aac"
+  [ -d fdk-aac ] || git clone git://github.com/mstorsjo/fdk-aac
 
   echo "### x264"
   cd "${ROOT}/x264"

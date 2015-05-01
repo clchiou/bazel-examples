@@ -3,6 +3,7 @@ bazel-bin
 bazel-genfiles
 bazel-out
 bazel-testlogs
+fdk-aac/fdk-aac
 tools/bazel
 x264/last_x264.tar.bz2
 x264/x264
