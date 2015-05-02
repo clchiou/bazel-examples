@@ -2,15 +2,13 @@
 
 set -o errexit -o nounset -o pipefail
 
-LAME="lame-3.99.5"
-LAME_TARBALL="lame-3.99.5.tar.gz"
 LAME_URL="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
+
+OPUS_URL="http://downloads.xiph.org/releases/opus/opus-1.1.tar.gz"
 
 X264_TARBALL="last_x264.tar.bz2"
 X264_URL="http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2"
 
-YASM="yasm-1.3.0"
-YASM_TARBALL="yasm-1.3.0.tar.gz"
 YASM_URL="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
 
 main() {
@@ -34,9 +32,11 @@ main() {
 
   echo "### lame"
   cd "${ROOT}/lame"
-  [ -f ${LAME_TARBALL} ] || wget "${LAME_URL}"
-  [ -d "${LAME}" ] || tar xzvf "${LAME_TARBALL}"
-  [ -e lame ] || ln -s "${LAME}" lame
+  download_tgz lame "${LAME_URL}"
+
+  echo "### opus"
+  cd "${ROOT}/opus"
+  download_tgz opus "${OPUS_URL}"
 
   echo "### x264"
   cd "${ROOT}/x264"
@@ -50,9 +50,7 @@ main() {
 
   echo "### yasm"
   cd "${ROOT}/yasm"
-  [ -f "${YASM_TARBALL}" ] || wget "${YASM_URL}"
-  [ -d "${YASM}" ] || tar xzvf "${YASM_TARBALL}"
-  [ -e yasm ] || ln -s "${YASM}" yasm
+  download_tgz yasm "${YASM_URL}"
 }
 
 checkout_git() {
@@ -60,6 +58,16 @@ checkout_git() {
   local path="${2}/$(basename "${repo}")"
   path="${path%.git}"
   [ -d "${path}" ] || git clone "${repo}" "${path}"
+}
+
+download_tgz() {
+  local package="${1}"
+  local url="${2}"
+  local tarball="$(basename "${url}")"
+  local output_dir="${tarball%.tar.gz}"
+  [ -f "${tarball}" ] || wget "${url}"
+  [ -d "${output_dir}" ] || tar xzvf "${tarball}"
+  [ -e "${package}" ] || ln -s "${output_dir}" "${package}"
 }
 
 main
