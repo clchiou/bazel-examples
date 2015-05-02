@@ -101,6 +101,7 @@ cc_library(
         'x264/common/oclobj.h',
     ],
     copts = COPTS,
+    linkstatic = 1,  # XXX Why can't we build dynamic library?
 )
 
 cc_binary(
