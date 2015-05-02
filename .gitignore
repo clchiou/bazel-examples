@@ -4,6 +4,8 @@ bazel-genfiles
 bazel-out
 bazel-testlogs
 fdk-aac/fdk-aac
+lame/lame-3.99.5
+lame/lame-3.99.5.tar.gz
 tools/bazel
 x264/last_x264.tar.bz2
 x264/x264
