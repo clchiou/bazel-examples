@@ -33,6 +33,10 @@ main() {
   cd "${ROOT}/fdk-aac"
   [ -d fdk-aac ] || git clone git://github.com/mstorsjo/fdk-aac
 
+  echo "### ffmpeg"
+  cd "${ROOT}/ffmpeg"
+  [ ffmpeg ] && git clone git://source.ffmpeg.org/ffmpeg.git
+
   echo "### lame"
   cd "${ROOT}/lame"
   download_tarball lame "${LAME_URL}"

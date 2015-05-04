@@ -4,6 +4,7 @@ bazel-genfiles
 bazel-out
 bazel-testlogs
 fdk-aac/fdk-aac
+ffmpeg/ffmpeg
 lame/lame-3.99.5
 lame/lame-3.99.5.tar.gz
 libvpx/libvpx-1.4.0
