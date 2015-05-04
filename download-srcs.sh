@@ -4,6 +4,9 @@ set -o errexit -o nounset -o pipefail
 
 LAME_URL="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
 
+LIBVPX="libvpx-1.4.0"
+LIBVPX_URL="https://github.com/webmproject/libvpx/archive/v1.4.0.tar.gz"
+
 OPUS_URL="http://downloads.xiph.org/releases/opus/opus-1.1.tar.gz"
 
 X264_TARBALL="last_x264.tar.bz2"
@@ -32,11 +35,15 @@ main() {
 
   echo "### lame"
   cd "${ROOT}/lame"
-  download_tgz lame "${LAME_URL}"
+  download_tarball lame "${LAME_URL}"
+
+  echo "### libvpx"
+  cd "${ROOT}/libvpx"
+  download_tarball libvpx "${LIBVPX_URL}" "${LIBVPX}"
 
   echo "### opus"
   cd "${ROOT}/opus"
-  download_tgz opus "${OPUS_URL}"
+  download_tarball opus "${OPUS_URL}"
 
   echo "### x264"
   cd "${ROOT}/x264"
@@ -50,7 +57,7 @@ main() {
 
   echo "### yasm"
   cd "${ROOT}/yasm"
-  download_tgz yasm "${YASM_URL}"
+  download_tarball yasm "${YASM_URL}"
 }
 
 checkout_git() {
@@ -60,13 +67,28 @@ checkout_git() {
   [ -d "${path}" ] || git clone "${repo}" "${path}"
 }
 
-download_tgz() {
+download_tarball() {
   local package="${1}"
   local url="${2}"
   local tarball="$(basename "${url}")"
-  local output_dir="${tarball%.tar.gz}"
+  local output_dir
+  local tar_args
+  case "${tarball}" in
+    *.tar.gz)
+      output_dir="${3:-${tarball%.tar.gz}}"
+      tar_args=xzvf
+      ;;
+    *.tar.bz2)
+      output_dir="${3:-${tarball%.tar.bz2}}"
+      tar_args=xjvf
+      ;;
+    *)
+      echo "Cannot extract ${tarball}"
+      exit 1
+      ;;
+  esac
   [ -f "${tarball}" ] || wget "${url}"
-  [ -d "${output_dir}" ] || tar xzvf "${tarball}"
+  [ -d "${output_dir}" ] || tar "${tar_args}" "${tarball}"
   [ -e "${package}" ] || ln -s "${output_dir}" "${package}"
 }
 
